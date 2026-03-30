@@ -1,5 +1,8 @@
+/* 
+======================== FILMES ========================
+*/
+
 const btnSalvarFilme = document.getElementById("btnSalvarFilme");
-const mensagem = document.getElementById("mensagem")
 
 if (btnSalvarFilme) {
     btnSalvarFilme.addEventListener("click", function () {
@@ -13,12 +16,15 @@ if (btnSalvarFilme) {
 
         if (!titulo || !genero || !descricao || !classificacao || duracao <= 0 || !dataEstreia) {
 
+            const mensagem = document.getElementById("mensagem")
+
             mensagem.innerHTML = `
             <div class="alert alert-danger mt-3">
                 Preencha todos os campos!
             </div>
             `
 
+            // Apaga mensagem de Filme cadastrado após 3 segundos
             setTimeout(() => {
                 mensagem.innerHTML = "";
             }, 3000);
@@ -26,6 +32,7 @@ if (btnSalvarFilme) {
             return;
         }
 
+        // Objeto Filme
         const filme = {
             titulo,
             genero,
@@ -55,11 +62,29 @@ if (btnSalvarFilme) {
             </div>
         `
 
-        // Apaga mensagem de Filme cadastrado após 3 segundos
         setTimeout(() => {
             mensagem.innerHTML = "";
         }, 3000);
-
     });
+}
 
+/* 
+======================== SESSÕES ========================
+*/
+
+const selectFilme = document.getElementById("filme");
+
+if (selectFilme) {
+
+    let filmes = JSON.parse(localStorage.getItem("filmes")) || [];
+
+    filmes.forEach(function (filme, index) {
+
+        const option = document.createElement("option");
+
+        option.value = index;
+        option.textContent = filme.titulo;
+
+        selectFilme.appendChild(option);
+    });
 }
