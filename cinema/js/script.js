@@ -88,3 +88,66 @@ if (selectFilme) {
         selectFilme.appendChild(option);
     });
 }
+
+/* 
+======================== SALAS ========================
+*/
+
+const btnSalvarSala = document.getElementById("btnSalvarSala");
+
+if (btnSalvarSala) {
+
+    btnSalvarSala.addEventListener("click", function () {
+
+        const nomeSala = document.getElementById("nomeSala").value.trim();
+        const capacidade = Number(document.getElementById("capacidade").value);
+        const tipoSala = document.getElementById("tipoSala").value;
+        const mensagem = document.getElementById("mensagem");
+
+        if (!nomeSala || capacidade <= 0 || !tipoSala) {
+
+            mensagem.innerHTML = `
+            <div class="alert alert-danger mt-3">
+                Preencha todos os campos!
+            </div>
+            `
+
+            setTimeout(() => {
+                mensagem.innerHTML = "";
+            }, 3000);
+
+            return;
+
+        }
+
+        // Objeto Sala
+        const sala = {
+            nomeSala,
+            capacidade,
+            tipoSala
+        };
+
+        let salas = JSON.parse(localStorage.getItem("salas")) || [];
+
+        salas.push(sala);
+
+        localStorage.setItem("salas", JSON.stringify(salas));
+
+        document.getElementById("nomeSala").value = "";
+        document.getElementById("capacidade").value = "";
+        document.getElementById("tipoSala").selectedIndex = 0;
+
+        mensagem.innerHTML = `
+            <div class="alert alert-success mt-3">
+                Sala cadastrada com sucesso! 🎥
+            </div>
+        `
+
+        setTimeout(() => {
+            mensagem.innerHTML = "";
+        }, 3000);
+
+
+    })
+
+}
