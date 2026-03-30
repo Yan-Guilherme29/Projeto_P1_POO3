@@ -78,15 +78,37 @@ if (selectFilme) {
 
     let filmes = JSON.parse(localStorage.getItem("filmes")) || [];
 
+    selectFilme.innerHTML = '<option value="" disabled selected>Selecione um filme</option>';
+
     filmes.forEach(function (filme, index) {
 
         const option = document.createElement("option");
 
         option.value = index;
-        option.textContent = filme.titulo;
+        option.textContent = `${filme.titulo} (${filme.genero})`;
 
         selectFilme.appendChild(option);
     });
+}
+
+const selectSala = document.getElementById("sala");
+
+if (selectSala) {
+
+    let salas = JSON.parse(localStorage.getItem("salas")) || [];
+
+    selectSala.innerHTML = '<option value="" disabled selected>Selecione uma sala</option>';
+
+    salas.forEach(function (sala, index) {
+
+        const option = document.createElement("option");
+
+        option.value = index;
+        option.textContent = `${sala.nomeSala} - ${sala.tipoSala} (${sala.capacidade} lugares)`;
+
+        selectSala.appendChild(option);
+    });
+
 }
 
 /* 
