@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Cinema</title>
+    <title>Cadastro de Sessões</title>
 </head>
 
 <body>
@@ -13,71 +13,64 @@
     <nav class="navbar bg-dark navbar-expand-lg border-bottom border-body fixed-top" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">
-                <img src="./img/movie.svg" alt="" class="d-inline-block align-text-top">
+                <img src="./img/movie.svg" class="d-inline-block align-text-top">
                 Cinema
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-
-                    <li class="nav-item">
-                        <a href="./cadastro-filmes.html" class="nav-link">Filmes</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="./cadastro-salas.html" class="nav-link">Salas</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="./cadastro-sessoes.html" class="nav-link">Sessões</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="./venda-ingressos.html" class="nav-link">Ingressos</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="./sessoes.html" class="nav-link">Ver Sessões</a>
-                    </li>
+                    <li class="nav-item"><a href="./cadastro-filmes.html" class="nav-link">Filmes</a></li>
+                    <li class="nav-item"><a href="./cadastro-salas.html" class="nav-link">Salas</a></li>
+                    <li class="nav-item"><a href="./cadastro-sessoes.html" class="nav-link">Sessões</a></li>
+                    <li class="nav-item"><a href="./venda-ingressos.html" class="nav-link">Ingressos</a></li>
+                    <li class="nav-item"><a href="./sessoes.html" class="nav-link">Ver Sessões</a></li>
                 </ul>
             </div>
-
         </div>
     </nav>
 
     <div class="container mt-5 pt-5">
         <h1>Cadastro de Sessões</h1>
-
         <hr>
 
         <div class="col-md-6 offset-md-3">
             <select class="form-select mb-3" id="filme">
-                <option value="" selected disabled>Selecione um filme</option>
+                <option value="" disabled selected>Selecione um filme</option>
             </select>
         </div>
 
         <div class="col-md-6 offset-md-3">
             <select class="form-select mb-3" id="sala">
-                <option value="" selected disabled>Selecione uma sala</option>
+                <option value="" disabled selected>Selecione uma sala</option>
             </select>
         </div>
 
         <div class="col-md-6 offset-md-3">
-            <input type="date" class="form-control mb-3" id="dataSessao">
+            <input type="datetime-local" class="form-control mb-3" id="dataHoraSessao">
         </div>
 
         <div class="col-md-6 offset-md-3">
-            <input type="time" class="form-control mb-3" id="horarioSessao">
+            <input type="number" class="form-control mb-3" id="precoIngresso" placeholder="Preço do Ingresso" step="0.01">
         </div>
 
         <div class="col-md-6 offset-md-3">
-            <input type="number" class="form-control mb-3" id="precoIngresso" placeholder="Preço do Ingresso"
-                step="0.01">
+            <select class="form-select mb-3" id="idioma">
+                <option value="" disabled selected>Selecione o idioma</option>
+                <option value="Dublado">Dublado</option>
+                <option value="Legendado">Legendado</option>
+            </select>
+        </div>
+
+        <div class="col-md-6 offset-md-3">
+            <select class="form-select mb-3" id="formato">
+                <option value="" disabled selected>Selecione o formato</option>
+                <option value="2D">2D</option>
+                <option value="3D">3D</option>
+            </select>
         </div>
 
         <div class="col-md-6 offset-md-3">
@@ -89,7 +82,6 @@
         <div class="col-md-6 offset-md-3">
             <div id="mensagem"></div>
         </div>
-
 
     </div>
 

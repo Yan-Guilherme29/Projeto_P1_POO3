@@ -136,44 +136,39 @@ if (btnSalvarSala) {
 ======================== SESSÕES ========================
 */
 
+// Preencher select de filmes
 const selectFilme = document.getElementById("filme");
 
 if (selectFilme) {
-
     let filmes = JSON.parse(localStorage.getItem("filmes")) || [];
 
     selectFilme.innerHTML = '<option value="" disabled selected>Selecione um filme</option>';
 
     filmes.forEach(function (filme, index) {
-
         const option = document.createElement("option");
-
         option.value = index;
         option.textContent = `${filme.titulo} (${filme.genero})`;
-
         selectFilme.appendChild(option);
     });
 }
 
+// Preencher select de salas
 const selectSala = document.getElementById("sala");
 
 if (selectSala) {
-
     let salas = JSON.parse(localStorage.getItem("salas")) || [];
 
     selectSala.innerHTML = '<option value="" disabled selected>Selecione uma sala</option>';
 
     salas.forEach(function (sala, index) {
-
         const option = document.createElement("option");
-
         option.value = index;
         option.textContent = `${sala.nomeSala} - ${sala.tipoSala} (${sala.capacidade} lugares)`;
-
         selectSala.appendChild(option);
     });
 }
 
+// Salvar sessão
 const btnSalvarSessao = document.getElementById("btnSalvarSessao");
 const mensagem = document.getElementById("mensagem");
 
@@ -183,17 +178,25 @@ if (btnSalvarSessao) {
 
         const filme = document.getElementById("filme").value;
         const sala = document.getElementById("sala").value;
-        const dataSessao = document.getElementById("dataSessao").value;
-        const horarioSessao = document.getElementById("horarioSessao").value;
+        const dataHoraSessao = document.getElementById("dataHoraSessao").value;
         const precoIngresso = Number(document.getElementById("precoIngresso").value);
+        const idioma = document.getElementById("idioma").value;
+        const formato = document.getElementById("formato").value;
 
-        if (filme === "" || sala === "" || !dataSessao || !horarioSessao || precoIngresso <= 0) {
-
+        // Validação
+        if (
+            filme === "" ||
+            sala === "" ||
+            !dataHoraSessao ||
+            precoIngresso <= 0 ||
+            !idioma ||
+            !formato
+        ) {
             mensagem.innerHTML = `
-            <div class="alert alert-danger mt-3">
-                Preencha todos os campos!
-            </div>
-            `
+                <div class="alert alert-danger mt-3">
+                    Preencha todos os campos!
+                </div>
+            `;
 
             setTimeout(() => {
                 mensagem.innerHTML = "";
@@ -205,13 +208,13 @@ if (btnSalvarSessao) {
         let filmes = JSON.parse(localStorage.getItem("filmes")) || [];
         let salas = JSON.parse(localStorage.getItem("salas")) || [];
 
-        // Objeto Sessão
         const sessao = {
             filme: filmes[filme].titulo,
             sala: salas[sala].nomeSala,
-            dataSessao,
-            horarioSessao,
-            precoIngresso: precoIngresso.toFixed(2)
+            dataHoraSessao,
+            precoIngresso: precoIngresso.toFixed(2),
+            idioma,
+            formato
         };
 
         let sessoes = JSON.parse(localStorage.getItem("sessoes")) || [];
@@ -220,23 +223,22 @@ if (btnSalvarSessao) {
 
         localStorage.setItem("sessoes", JSON.stringify(sessoes));
 
+        // Limpar campos
         document.getElementById("filme").selectedIndex = 0;
         document.getElementById("sala").selectedIndex = 0;
-        document.getElementById("dataSessao").value = "";
-        document.getElementById("horarioSessao").value = "";
+        document.getElementById("dataHoraSessao").value = "";
         document.getElementById("precoIngresso").value = "";
-        
+        document.getElementById("idioma").selectedIndex = 0;
+        document.getElementById("formato").selectedIndex = 0;
 
         mensagem.innerHTML = `
             <div class="alert alert-success mt-3">
                 Sessão cadastrada com sucesso! 🍿
             </div>
-        `
+        `;
 
         setTimeout(() => {
             mensagem.innerHTML = "";
         }, 3000);
-    })
+    });
 }
-
-
