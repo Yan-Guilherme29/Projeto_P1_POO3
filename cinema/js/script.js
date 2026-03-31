@@ -242,3 +242,92 @@ if (btnSalvarSessao) {
         }, 3000);
     });
 }
+
+/* 
+======================== VENDA DE INGRESSOS ========================
+*/
+
+const selectSessao = document.getElementById("sessao");
+
+if (selectSessao) {
+    let sessoes = JSON.parse(localStorage.getItem("sessoes")) || [];
+
+    selectSessao.innerHTML = '<option value="" disabled selected>Selecione uma sessão</option>';
+
+    sessoes.forEach(function (sessao, index) {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = `${sessao.filme} - ${sessao.sala} (${new Date(sessao.dataHoraSessao).toLocaleString()})`;
+        selectSessao.appendChild(option);
+    });
+}
+
+const btnSalvarIngresso = document.getElementById("btnSalvarIngresso");
+
+if (btnSalvarIngresso) {
+
+    btnSalvarIngresso.addEventListener("click", function () {
+
+        const sessao = document.getElementById("sessao").value;
+        const nomeCliente = document.getElementById("nomeCliente").value.trim();
+        const cpf = document.getElementById("cpf").value.trim();
+        const assento = document.getElementById("assento").value.trim();
+        const tipoPagamento = document.getElementById("tipoPagamento").value;
+
+        const mensagem = document.getElementById("mensagem");
+
+        // Validação
+        if (sessao === "" || !nomeCliente || !cpf || !assento || !tipoPagamento) {
+
+            mensagem.innerHTML = `
+                <div class="alert alert-danger mt-3">
+                    Preencha todos os campos!
+                </div>
+            `;
+
+            setTimeout(() => {
+                mensagem.innerHTML = "";
+            }, 3000);
+
+            return;
+        }
+
+        // Buscar sessões
+        let sessoes = JSON.parse(localStorage.getItem("sessoes")) || [];
+
+        // Criar objeto ingresso
+        const ingresso = {
+            sessao: `${sessoes[sessao].filme} - ${sessoes[sessao].sala} (${new Date(sessoes[sessao].dataHoraSessao).toLocaleString()})`,
+            nomeCliente,
+            cpf,
+            assento,
+            tipoPagamento
+        };
+
+        // Salvar no localStorage
+        let ingressos = JSON.parse(localStorage.getItem("ingressos")) || [];
+        ingressos.push(ingresso);
+        localStorage.setItem("ingressos", JSON.stringify(ingressos));
+
+        // Limpar campos
+        document.getElementById("sessao").selectedIndex = 0;
+        document.getElementById("nomeCliente").value = "";
+        document.getElementById("cpf").value = "";
+        document.getElementById("assento").value = "";
+        document.getElementById("tipoPagamento").selectedIndex = 0;
+
+        // Mensagem de sucesso
+        mensagem.innerHTML = `
+            <div class="alert alert-success mt-3">
+                Ingresso vendido com sucesso! 🎟️
+            </div>
+        `;
+
+        setTimeout(() => {
+            mensagem.innerHTML = "";
+        }, 3000);
+
+    });
+
+}
+
