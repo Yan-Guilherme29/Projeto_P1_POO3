@@ -183,7 +183,6 @@ if (btnSalvarSessao) {
         const idioma = document.getElementById("idioma").value;
         const formato = document.getElementById("formato").value;
 
-        // Validação
         if (
             filme === "" ||
             sala === "" ||
@@ -223,7 +222,6 @@ if (btnSalvarSessao) {
 
         localStorage.setItem("sessoes", JSON.stringify(sessoes));
 
-        // Limpar campos
         document.getElementById("filme").selectedIndex = 0;
         document.getElementById("sala").selectedIndex = 0;
         document.getElementById("dataHoraSessao").value = "";
@@ -283,7 +281,6 @@ if (btnSalvarIngresso) {
 
         const mensagem = document.getElementById("mensagem");
 
-        // Validação
         if (sessao === "" || !nomeCliente || !cpf || !assento || !tipoPagamento) {
 
             mensagem.innerHTML = `
@@ -314,10 +311,10 @@ if (btnSalvarIngresso) {
             return;
         }
 
-        // Buscar sessões
+
         let sessoes = JSON.parse(localStorage.getItem("sessoes")) || [];
 
-        // Criar objeto ingresso
+
         const ingresso = {
             sessao: `${sessoes[sessao].filme} - ${sessoes[sessao].sala} (${new Date(sessoes[sessao].dataHoraSessao).toLocaleString()})`,
             nomeCliente,
@@ -326,19 +323,18 @@ if (btnSalvarIngresso) {
             tipoPagamento
         };
 
-        // Salvar no localStorage
         let ingressos = JSON.parse(localStorage.getItem("ingressos")) || [];
         ingressos.push(ingresso);
         localStorage.setItem("ingressos", JSON.stringify(ingressos));
 
-        // Limpar campos
+
         document.getElementById("sessao").selectedIndex = 0;
         document.getElementById("nomeCliente").value = "";
         document.getElementById("cpf").value = "";
         document.getElementById("assento").value = "";
         document.getElementById("tipoPagamento").selectedIndex = 0;
 
-        // Mensagem de sucesso
+
         mensagem.innerHTML = `
             <div class="alert alert-success  py-2 px-3 mt-3">
                 Ingresso vendido com sucesso! 🎟️
