@@ -331,3 +331,39 @@ if (btnSalvarIngresso) {
 
 }
 
+/* 
+======================== VER SESSÕES ========================
+*/
+
+const tabela = document.getElementById("tabelaSessoes");
+
+if (tabela) {
+
+    let sessoes = JSON.parse(localStorage.getItem("sessoes")) || [];
+
+    if (sessoes.length === 0) {
+        tabela.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center">
+                    Nenhuma sessão cadastrada
+                </td>
+            </tr>
+        `;
+    }
+
+    sessoes.forEach(function (sessao) {
+
+        const linha = document.createElement("tr");
+
+        linha.innerHTML = `
+            <td>${sessao.filme}</td>
+            <td>${sessao.sala}</td>
+            <td>${new Date(sessao.dataHoraSessao).toLocaleString()}</td>
+            <td>${sessao.idioma}</td>
+            <td>${sessao.formato}</td>
+            <td>R$ ${sessao.precoIngresso}</td>
+        `;
+
+        tabela.appendChild(linha);
+    });
+}
