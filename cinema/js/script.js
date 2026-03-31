@@ -19,7 +19,7 @@ if (btnSalvarFilme) {
             const mensagem = document.getElementById("mensagem")
 
             mensagem.innerHTML = `
-            <div class="alert alert-danger mt-3">
+            <div class="alert alert-danger py-2 px-3 mt-3">
                 Preencha todos os campos!
             </div>
             `
@@ -57,7 +57,7 @@ if (btnSalvarFilme) {
 
 
         mensagem.innerHTML = `
-            <div class="alert alert-success mt-3">
+            <div class="alert alert-success  py-2 px-3 mt-3">
                 Filme cadastrado com sucesso! 🎬
             </div>
         `
@@ -87,7 +87,7 @@ if (btnSalvarSala) {
         if (!nomeSala || capacidade <= 0 || !tipoSala) {
 
             mensagem.innerHTML = `
-            <div class="alert alert-danger mt-3">
+            <div class="alert alert-danger py-2 px-3 mt-3">
                 Preencha todos os campos!
             </div>
             `
@@ -118,7 +118,7 @@ if (btnSalvarSala) {
         document.getElementById("tipoSala").selectedIndex = 0;
 
         mensagem.innerHTML = `
-            <div class="alert alert-success mt-3">
+            <div class="alert alert-success  py-2 px-3 mt-3">
                 Sala cadastrada com sucesso! 🎥
             </div>
         `
@@ -193,7 +193,7 @@ if (btnSalvarSessao) {
             !formato
         ) {
             mensagem.innerHTML = `
-                <div class="alert alert-danger mt-3">
+                <div class="alert alert-danger py-2 px-3 mt-3">
                     Preencha todos os campos!
                 </div>
             `;
@@ -232,7 +232,7 @@ if (btnSalvarSessao) {
         document.getElementById("formato").selectedIndex = 0;
 
         mensagem.innerHTML = `
-            <div class="alert alert-success mt-3">
+            <div class="alert alert-success  py-2 px-3 mt-3">
                 Sessão cadastrada com sucesso! 🍿
             </div>
         `;
@@ -260,6 +260,13 @@ if (selectSessao) {
         option.textContent = `${sessao.filme} - ${sessao.sala} (${new Date(sessao.dataHoraSessao).toLocaleString()})`;
         selectSessao.appendChild(option);
     });
+
+    const params = new URLSearchParams(window.location.search);
+    const sessaoSelecionada = params.get("sessao");
+
+    if (sessaoSelecionada !== null && selectSessao) {
+        selectSessao.value = sessaoSelecionada;
+    }
 }
 
 const btnSalvarIngresso = document.getElementById("btnSalvarIngresso");
@@ -280,10 +287,25 @@ if (btnSalvarIngresso) {
         if (sessao === "" || !nomeCliente || !cpf || !assento || !tipoPagamento) {
 
             mensagem.innerHTML = `
-                <div class="alert alert-danger mt-3">
+                <div class="alert alert-danger py-2 px-3 mt-3">
                     Preencha todos os campos!
                 </div>
             `;
+
+            setTimeout(() => {
+                mensagem.innerHTML = "";
+            }, 3000);
+
+            return;
+        }
+
+        if (cpf.length < 11) {
+
+            mensagem.innerHTML = `
+        <div class="alert alert-danger py-2 px-3 mt-3">
+            CPF inválido! Digite pelo menos 11 caracteres.
+        </div>
+    `;
 
             setTimeout(() => {
                 mensagem.innerHTML = "";
@@ -318,7 +340,7 @@ if (btnSalvarIngresso) {
 
         // Mensagem de sucesso
         mensagem.innerHTML = `
-            <div class="alert alert-success mt-3">
+            <div class="alert alert-success  py-2 px-3 mt-3">
                 Ingresso vendido com sucesso! 🎟️
             </div>
         `;
@@ -344,26 +366,35 @@ if (tabela) {
     if (sessoes.length === 0) {
         tabela.innerHTML = `
             <tr>
-                <td colspan="6" class="text-center">
+                <td colspan="7" class="text-center">
                     Nenhuma sessão cadastrada
                 </td>
             </tr>
         `;
     }
 
-    sessoes.forEach(function (sessao) {
+    sessoes.forEach(function (sessao, index) {
 
         const linha = document.createElement("tr");
 
         linha.innerHTML = `
-            <td>${sessao.filme}</td>
-            <td>${sessao.sala}</td>
-            <td>${new Date(sessao.dataHoraSessao).toLocaleString()}</td>
-            <td>${sessao.idioma}</td>
-            <td>${sessao.formato}</td>
-            <td>R$ ${sessao.precoIngresso}</td>
-        `;
+    <td>${sessao.filme}</td>
+    <td>${sessao.sala}</td>
+    <td>${new Date(sessao.dataHoraSessao).toLocaleString()}</td>
+    <td>${sessao.idioma}</td>
+    <td>${sessao.formato}</td>
+    <td>R$ ${sessao.precoIngresso}</td>
+    <td>
+        <button class="btn btn-success btn-sm" onclick="comprarIngresso(${index})">
+            Comprar
+        </button>
+    </td>
+`;
 
         tabela.appendChild(linha);
     });
+}
+
+function comprarIngresso(index) {
+    window.location.href = "venda-ingressos.html?sessao=" + index;
 }
