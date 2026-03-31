@@ -1,8 +1,9 @@
 /* 
-======================== FILMES ========================
+============================ FILMES ============================
 */
 
 const btnSalvarFilme = document.getElementById("btnSalvarFilme");
+
 
 if (btnSalvarFilme) {
     btnSalvarFilme.addEventListener("click", function () {
@@ -42,10 +43,12 @@ if (btnSalvarFilme) {
             dataEstreia
         };
 
+         // Pega filmes do localStorage ou cria array vazio
         let filmes = JSON.parse(localStorage.getItem("filmes")) || [];
 
         filmes.push(filme)
 
+         // Salva array atualizado no localStorage
         localStorage.setItem("filmes", JSON.stringify(filmes))
 
         document.getElementById("titulo").value = "";
@@ -70,7 +73,7 @@ if (btnSalvarFilme) {
 
 
 /* 
-======================== SALAS ========================
+============================ SALAS ============================
 */
 
 const btnSalvarSala = document.getElementById("btnSalvarSala");
@@ -100,7 +103,6 @@ if (btnSalvarSala) {
 
         }
 
-        // Objeto Sala
         const sala = {
             nomeSala,
             capacidade,
@@ -133,14 +135,14 @@ if (btnSalvarSala) {
 }
 
 /* 
-======================== SESSÕES ========================
+============================ SESSÕES ============================
 */
 
-// Preencher select de filmes
+// Preenche select de filmes
 const selectFilme = document.getElementById("filme");
 
 if (selectFilme) {
-    let filmes = JSON.parse(localStorage.getItem("filmes")) || [];
+    let filmes = JSON.parse(localStorage.getItem("filmes")) || []; 
 
     selectFilme.innerHTML = '<option value="" disabled selected>Selecione um filme</option>';
 
@@ -242,9 +244,10 @@ if (btnSalvarSessao) {
 }
 
 /* 
-======================== VENDA DE INGRESSOS ========================
+============================ VENDA DE INGRESSOS ============================
 */
 
+// Preenche select de sessões
 const selectSessao = document.getElementById("sessao");
 
 if (selectSessao) {
@@ -259,6 +262,8 @@ if (selectSessao) {
         selectSessao.appendChild(option);
     });
 
+
+     // Seleção via parâmetro na URL
     const params = new URLSearchParams(window.location.search);
     const sessaoSelecionada = params.get("sessao");
 
@@ -267,6 +272,7 @@ if (selectSessao) {
     }
 }
 
+// Salva Ingresso
 const btnSalvarIngresso = document.getElementById("btnSalvarIngresso");
 
 if (btnSalvarIngresso) {
@@ -278,7 +284,6 @@ if (btnSalvarIngresso) {
         const cpf = document.getElementById("cpf").value.trim();
         const assento = document.getElementById("assento").value.trim();
         const tipoPagamento = document.getElementById("tipoPagamento").value;
-
         const mensagem = document.getElementById("mensagem");
 
         if (sessao === "" || !nomeCliente || !cpf || !assento || !tipoPagamento) {
@@ -350,7 +355,7 @@ if (btnSalvarIngresso) {
 }
 
 /* 
-======================== VER SESSÕES ========================
+============================ VER SESSÕES ============================
 */
 
 const tabela = document.getElementById("tabelaSessoes");
@@ -369,6 +374,7 @@ if (tabela) {
         `;
     }
 
+    // Cria linhas da tabela dinamicamente
     sessoes.forEach(function (sessao, index) {
 
         const linha = document.createElement("tr");
@@ -391,6 +397,8 @@ if (tabela) {
     });
 }
 
+
+// Direcionamento para a página de venda de ingressos com a sessão selecionada
 function comprarIngresso(index) {
     window.location.href = "venda-ingressos.html?sessao=" + index;
 }
